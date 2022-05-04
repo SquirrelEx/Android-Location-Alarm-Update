@@ -1,19 +1,40 @@
 package moondimemap.destinationalarm
 
 import android.Manifest
+import android.R
 import android.app.AlertDialog
-import android.os.Bundle
-import android.content.Intent
-import android.os.IBinder
 import android.app.Service
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Bundle
+import android.os.IBinder
+import org.web3j.crypto.Credentials
+import org.web3j.crypto.Wallet
+import org.web3j.crypto.WalletUtils
+import org.web3j.protocol.Web3j
+import org.web3j.protocol.http.HttpService
+import org.web3j.tx.gas.DefaultGasProvider
+
 
 class LocationService : Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         val isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+        val web3j = Web3j . build (HttpService("https://rpc.debugchain.net"));
+        //val credentials = WalletUtils.loadCredentials("password", "path/to/wallet")
+        val credentials = Credentials.create("02381aa245d8a4772385db9abeb10909d661757f73fdb7f0cdb6ccd17396e920")
+
+        val contract = Moondimetesttoken.load(
+            "0x3dd8404CcFB923B3a65EFb5E0475ea853C2Db26C",
+            web3j,
+            credentials,
+            DefaultGasProvider()
+            )
+
+        val balance = contract.balanceOf(credentials.address).send()
 
         val disposable = rxPermissions!!.request(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.INTERNET,
@@ -29,6 +50,8 @@ class LocationService : Service() {
                                             val results = FloatArray(3)
                                             Location.distanceBetween(loc.latitude, loc.longitude, targetMarker!!.position.latitude, targetMarker!!.position.longitude, results)
                                             if (results[0] <= minDist) {
+
+
                                                 // do stuff
                                                 ringtone!!.play()
                                                 superDirty!!.vibrateIt()
@@ -38,10 +61,10 @@ class LocationService : Service() {
                                                 map!!.invalidate()
                                                 val builder = AlertDialog.Builder(superDirty)
                                                 builder.setTitle("WAKE UP!")
-                                                        .setMessage("Stop alarm?")
-                                                        .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                                                        .setMessage(balance.toString())
+                                                        .setPositiveButton(R.string.yes) { dialog, _ ->
                                                             dialog.cancel()
-                                                        }.setIcon(android.R.drawable.ic_dialog_alert)
+                                                        }.setIcon(R.drawable.ic_dialog_alert)
                                                         .setOnCancelListener {
                                                             ringtone!!.stop()
                                                             vib!!.cancel()
@@ -78,9 +101,9 @@ class LocationService : Service() {
                         val builder = AlertDialog.Builder(superDirty)
                         builder.setTitle("PERMISSIONS ERROR!")
                                 .setMessage("The app cannot work without the required permissions. Exiting...")
-                                .setPositiveButton(android.R.string.ok) { _, _ ->
+                                .setPositiveButton(R.string.ok) { _, _ ->
                                     superDirty!!.finish()
-                                }.setIcon(android.R.drawable.ic_dialog_alert)
+                                }.setIcon(R.drawable.ic_dialog_alert)
                                 .setOnCancelListener {
                                     superDirty!!.finish()
                                 }
