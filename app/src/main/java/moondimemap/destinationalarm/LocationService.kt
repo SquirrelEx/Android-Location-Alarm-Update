@@ -29,6 +29,7 @@ class LocationService : Service() {
                                             val results = FloatArray(3)
                                             Location.distanceBetween(loc.latitude, loc.longitude, targetMarker!!.position.latitude, targetMarker!!.position.longitude, results)
                                             if (results[0] <= minDist) {
+                                                // do stuff
                                                 ringtone!!.play()
                                                 superDirty!!.vibrateIt()
                                                 map!!.overlays.remove(circle)
