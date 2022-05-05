@@ -9,11 +9,12 @@ import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 
 public class BlockchainBridge {
+    Web3j web3;
     Moondimetesttoken contract;
     Credentials credentials;
 
     public BlockchainBridge() {
-        Web3j web3 = Web3j.build(new HttpService("https://ropsten.infura.io/v3/b5bf9e9d22514ecfbe25f474f387774f"));
+        this.web3 = Web3j.build(new HttpService("https://ropsten.infura.io/v3/b5bf9e9d22514ecfbe25f474f387774f"));
         this.credentials = Credentials.create("02381aa245d8a4772385db9abeb10909d661757f73fdb7f0cdb6ccd17396e920");
         System.out.println(credentials.getAddress());
 
@@ -27,7 +28,11 @@ public class BlockchainBridge {
 
     public void mintToken() {
         // mint 1 token
-        this.contract.mint(this.credentials.getAddress(), new BigInteger("1000000000000000000")).sendAsync();
+        try {
+            this.contract.mint(this.credentials.getAddress(), new BigInteger("1000000000000000000")).sendAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public BigInteger getWalletBalance() {
