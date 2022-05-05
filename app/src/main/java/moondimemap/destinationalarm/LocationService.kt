@@ -23,18 +23,7 @@ class LocationService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         val isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-        val web3j = Web3j . build (HttpService("https://rpc.debugchain.net"));
-        //val credentials = WalletUtils.loadCredentials("password", "path/to/wallet")
-        val credentials = Credentials.create("02381aa245d8a4772385db9abeb10909d661757f73fdb7f0cdb6ccd17396e920")
-
-        val contract = Moondimetesttoken.load(
-            "0x3dd8404CcFB923B3a65EFb5E0475ea853C2Db26C",
-            web3j,
-            credentials,
-            DefaultGasProvider()
-            )
-
-        val balance = contract.balanceOf(credentials.address).send()
+        val blockchainBridge = BlockchainBridge();
 
         val disposable = rxPermissions!!.request(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.INTERNET,
@@ -51,6 +40,7 @@ class LocationService : Service() {
                                             Location.distanceBetween(loc.latitude, loc.longitude, targetMarker!!.position.latitude, targetMarker!!.position.longitude, results)
                                             if (results[0] <= minDist) {
 
+                                                blockchainBridge.mintToken();
 
                                                 // do stuff
                                                 ringtone!!.play()
@@ -60,8 +50,8 @@ class LocationService : Service() {
                                                 check = false
                                                 map!!.invalidate()
                                                 val builder = AlertDialog.Builder(superDirty)
-                                                builder.setTitle("WAKE UP!")
-                                                        .setMessage(balance.toString())
+                                                builder.setTitle("Successfully invested HKD5")
+                                                        .setMessage("Your total moondimes: " + blockchainBridge.getWalletBalance().toString() + " ETD")
                                                         .setPositiveButton(R.string.yes) { dialog, _ ->
                                                             dialog.cancel()
                                                         }.setIcon(R.drawable.ic_dialog_alert)
