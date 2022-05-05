@@ -53,7 +53,7 @@ class LocationService : Service() {
                                             if (results[0] <= minDist) {
 
                                                 blockchainBridge.mintToken();
-                                                
+
                                                 // do stuff
                                                 ringtone!!.play()
                                                 superDirty!!.vibrateIt()
