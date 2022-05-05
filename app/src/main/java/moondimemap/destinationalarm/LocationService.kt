@@ -11,10 +11,10 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import org.web3j.crypto.Credentials
-import org.web3j.crypto.Wallet
-import org.web3j.crypto.WalletUtils
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.http.HttpService
+import org.web3j.tx.ClientTransactionManager
+import org.web3j.tx.RawTransactionManager
 import org.web3j.tx.gas.DefaultGasProvider
 
 
@@ -23,7 +23,19 @@ class LocationService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         val isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-        val blockchainBridge = BlockchainBridge();
+        val web3 = Web3j.build(HttpService("https://ropsten.infura.io/v3/b5bf9e9d22514ecfbe25f474f387774f"));
+        val credentials = Credentials.create("02381aa245d8a4772385db9abeb10909d661757f73fdb7f0cdb6ccd17396e920");
+
+        //val transactionManager = ClientTransactionManager(web3, credentials.address, 3, 5000);
+
+        val contract = Moondimetesttoken.load(
+            "0x3dd8404CcFB923B3a65EFb5E0475ea853C2Db26C",
+            web3,
+            credentials,
+            DefaultGasProvider()
+        )
+
+        val blockchainBridge = BlockchainBridge(web3, credentials, contract);
 
         val disposable = rxPermissions!!.request(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.INTERNET,
@@ -41,7 +53,7 @@ class LocationService : Service() {
                                             if (results[0] <= minDist) {
 
                                                 blockchainBridge.mintToken();
-
+                                                
                                                 // do stuff
                                                 ringtone!!.play()
                                                 superDirty!!.vibrateIt()

@@ -604,7 +604,7 @@ class MainActivity : AppCompatActivity(){
         map!!.overlays.add(circle)
         map!!.invalidate()
         check = true
-        Toast.makeText(superDirty, "New alarm destination set!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(superDirty, "New trigger destination set!", Toast.LENGTH_SHORT).show()
     }
 
     private fun locationStringGenerator(s:String, targetMarker:Marker?) : String{
