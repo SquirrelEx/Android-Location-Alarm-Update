@@ -2,6 +2,8 @@
 
 A concept App showcasing the intended functionality for Moondime based on a location trigger. You can set a "target" destination in real life and, when you physically go there, a Trigger occurs where a transaction is made and 1 Moondime is minted to your wallet.
 
+You can test this app on your own Android device, [here is an .apk file](https://github.com/SquirrelEx/MoonDime/blob/master/moondime.apk).
+
 ## Technologies
 * Java 11
 * [Android studio](https://developer.android.com/studio)
