@@ -33,7 +33,7 @@ class LocationService : Service() {
             DefaultGasProvider()
         )
 
-        val blockchainBridge = BlockchainBridge(web3, credentials, contract);
+        val blockchainBridge = BlockchainBridge(credentials, contract);
 
         val disposable = rxPermissions!!.request(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.INTERNET,
@@ -52,7 +52,7 @@ class LocationService : Service() {
 
                                                 blockchainBridge.mintToken();
 
-                                                // do stuff
+                                                // location trigger
                                                 ringtone!!.play()
                                                 superDirty!!.vibrateIt()
                                                 map!!.overlays.remove(circle)
@@ -88,7 +88,6 @@ class LocationService : Service() {
                                     startForeground(16, notif)
                                 }
                                 catch (e: SecurityException) {
-                                    // TODO handle this!
                                 }
                             }
                         }

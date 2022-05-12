@@ -3,24 +3,21 @@ package moondimemap.destinationalarm;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.tx.gas.DefaultGasProvider;
 
 import java.math.BigInteger;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class BlockchainBridge {
-    private final Web3j web3;
     private final Credentials credentials;
     private final MoondimeToken contract;
 
-    public BlockchainBridge(Web3j web3, Credentials credentials, MoondimeToken contract) {
-        this.web3 = web3;
+    public BlockchainBridge(Credentials credentials, MoondimeToken contract) {
         this.credentials = credentials;
         this.contract = contract;
     }
 
-    // mint 1 token
+    // mint 1 MDT token
     public void mintToken() {
         CompletableFuture<TransactionReceipt> receipt = contract.mint(credentials.getAddress(), new BigInteger("1000000000000000000")).sendAsync();
         receipt.thenAccept(transactionReceipt -> {

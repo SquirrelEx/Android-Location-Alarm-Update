@@ -64,10 +64,10 @@ class MainActivity : AppCompatActivity(){
                 }
         notif = NotificationCompat.Builder(this, createNotificationChannel())
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Destination Alarm")
-                .setContentText("Don't worry, the alarm is still active in the background!")
+                .setContentTitle("Destination Trigger")
+                .setContentText("Don't worry, the trigger is still active in the background!")
                 .setContentIntent(pendingIntent)
-                .setTicker("Destination Alarm")
+                .setTicker("Destination Trigger")
                 .build()
         notif!!.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
@@ -86,16 +86,6 @@ class MainActivity : AppCompatActivity(){
         this.volumeControlStream = AudioManager.STREAM_ALARM
 
         minDist = settings!!.getInt("minDist", 1000)
-
-
-//        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-//        audioManager!!.mode = AudioManager.MODE_NORMAL
-//        Log.e("asdasdasdasdasdddddddddddddd", audioManager!!.isBluetoothScoOn.toString())
-//        audioManager!!.isBluetoothScoOn = false
-//        audioManager!!.isSpeakerphoneOn = true
-//
-//        audioManager!!.isSpeakerphoneOn = settings!!.getBoolean("useSpeaker", true)
-
         vib = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         favourites = settings!!.getStringSet("favourites", TreeSet())
@@ -208,7 +198,7 @@ class MainActivity : AppCompatActivity(){
             var zoomMax = map!!.maxZoomLevel.toInt() - 10
             zoomMax = if (zoomMax < zoomMin) zoomMin else zoomMax
             val t = cacheManager.downloadAreaAsync(superDirty, map!!.boundingBox, zoomMin, zoomMax)
-            Log.e("STATUSSSSSSS",t.status.toString())
+            Log.e("STATUS",t.status.toString())
         }
     }
 
@@ -240,10 +230,10 @@ class MainActivity : AppCompatActivity(){
                 editor!!.apply()
                 ringtone = RingtoneManager.getRingtone(superDirty, notification)
                 ringtone!!.audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED).build()
-                Toast.makeText(superDirty, "New alarm sound set!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(superDirty, "New trigger sound set!", Toast.LENGTH_SHORT).show()
             }
             else{
-                Toast.makeText(superDirty, "The sound of the alarm cannot be set to none!", Toast.LENGTH_LONG).show()
+                Toast.makeText(superDirty, "The sound of the trigger cannot be set to none!", Toast.LENGTH_LONG).show()
             }
         }
         if(requestCode == 1){
@@ -328,7 +318,7 @@ class MainActivity : AppCompatActivity(){
             override fun onClick(v: View?) {
                 val sndmngtIntent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
                 sndmngtIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
-                sndmngtIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Alarm Sound")
+                sndmngtIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select trigger Sound")
                 sndmngtIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, notification)
                 sndmngtIntent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
                 startActivityForResult(sndmngtIntent, 5)
