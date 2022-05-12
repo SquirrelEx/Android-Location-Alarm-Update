@@ -19,27 +19,27 @@ The app has a context menu on the left, that allow you to:
 - Caches the current map and submap tiles offline
 
 ### 1. Main Menu
-![main menu](https://github.com/SquirrelEx/Android-Location-Alarm-Update/blob/master/extras/screenshots/mainmenu.png?raw=true)
+![main menu](https://github.com/SquirrelEx/MoonDime/blob/master/extras/screenshots/mainmenu.png?raw=true)
 
 ### 2. Location Search
 Allows you to search for a location and set a trigger.
 
-![location search](https://github.com/SquirrelEx/Android-Location-Alarm-Update/blob/master/extras/screenshots/locationsearch.png?raw=true)
+![location search](https://github.com/SquirrelEx/MoonDime/blob/master/extras/screenshots/locationsearch.png?raw=true)
 
 ### 3. Trigger activated
 When you reach the target location, the trigger is activated. Displaying your current Moondtime token balance and triggering a function to mint 1 more Moondime to your wallet.
 
-![trigger activated](https://github.com/SquirrelEx/Android-Location-Alarm-Update/blob/master/extras/screenshots/trigger.png?raw=true)
+![trigger activated](https://github.com/SquirrelEx/MoonDime/blob/master/extras/screenshots/trigger.png?raw=true)
 
 ### 4. Android location emulator
 Allows you to simulate map movement in Android Studio, useful for testing purposes.
 
-![location emulator](https://github.com/SquirrelEx/Android-Location-Alarm-Update/blob/master/extras/screenshots/emulator.png?raw=true)
+![location emulator](https://github.com/SquirrelEx/MoonDime/blob/master/extras/screenshots/emulator.png?raw=true)
 
 ### 5. Etherscan block explorer
 Allows you to view the Moondime Token Smart Contract transactions. You can check when a token is minted on the bottom under "Transactions", the method is "Mint".
 
-![etherscan](https://github.com/SquirrelEx/Android-Location-Alarm-Update/blob/master/extras/screenshots/etherscan.png?raw=true)
+![etherscan](https://github.com/SquirrelEx/MoonDime/blob/master/extras/screenshots/etherscan.png?raw=true)
 
 
 The recommended way to test the App is:
@@ -62,7 +62,7 @@ The Moondime Token smart contract is based on [OpenZeppelin's implemention of ER
 
 A new function was created to allow minting new tokens, in order to be possible to reward the App users with them. This function is only usable by the owner of the contract, in this case the deployer of the smart contract, implemented through the [Ownable mechanism](https://docs.openzeppelin.com/contracts/2.x/access-control).
 
-The smart contract Solidity code and ABI can be found [in this folder](https://github.com/SquirrelEx/Android-Location-Alarm-Update/tree/master/moondime%20smart%20contract).
+The smart contract Solidity code and ABI can be found [in this folder](https://github.com/SquirrelEx/MoonDime/tree/master/moondime%20smart%20contract).
 
 
 ## Credits
