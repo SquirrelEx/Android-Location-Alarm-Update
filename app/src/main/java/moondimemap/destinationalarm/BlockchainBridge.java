@@ -6,14 +6,15 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.gas.DefaultGasProvider;
 
 import java.math.BigInteger;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class BlockchainBridge {
     private final Web3j web3;
     private final Credentials credentials;
-    private final Moondimetesttoken contract;
+    private final MoondimeToken contract;
 
-    public BlockchainBridge(Web3j web3, Credentials credentials, Moondimetesttoken contract) {
+    public BlockchainBridge(Web3j web3, Credentials credentials, MoondimeToken contract) {
         this.web3 = web3;
         this.credentials = credentials;
         this.contract = contract;
@@ -21,21 +22,13 @@ public class BlockchainBridge {
 
     // mint 1 token
     public void mintToken() {
-        /*Runnable runnable = () -> {
-            try {
-                contract.mint(credentials.getAddress(), new BigInteger("1000000000000000000")).send();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        contract.mint(credentials.getAddress(), new BigInteger("1000000000000000000")).sendAsync();
+        CompletableFuture<TransactionReceipt> receipt = contract.mint(credentials.getAddress(), new BigInteger("1000000000000000000")).sendAsync();
+        receipt.thenAccept(transactionReceipt -> {
+            System.out.println("Minted 1 MDT");
+        }).exceptionally(transactionReceipt -> {
+            System.out.println(transactionReceipt.getMessage());
+            return null;
+        });
     }
 
     public BigInteger getWalletBalance() {
